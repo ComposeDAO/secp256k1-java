@@ -67,4 +67,5 @@ fabric.properties
 .idea/httpRequests
 
 .vscode
-
+/**/*.class
+.libs

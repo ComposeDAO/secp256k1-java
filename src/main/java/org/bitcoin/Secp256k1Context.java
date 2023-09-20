@@ -31,11 +31,15 @@ import static java.lang.Thread.currentThread;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
+import java.util.logging.Logger;
+
 /**
  * This class holds the context reference used in native methods
  * to handle ECDSA operations.
  */
 public class Secp256k1Context {
+	private static final Logger logger = Logger.getLogger(Secp256k1Context.class.getName());
+
 	private static final boolean enabled; // true if the library is loaded
 	private static final long context; // ref to pointer to context obj
 
@@ -46,10 +50,12 @@ public class Secp256k1Context {
 		final String libToLoad;
 
 		final String arch = getProperty("os.arch");
+		// System.out.println(arch);
 		final boolean arch64 = "x64".equals(arch) || "amd64".equals(arch) || "x86_64".equals(arch);
-		final boolean archArm64 = "arm64".equals(arch);
+		final boolean archArm64 = "aarch64".equals(arch);
 
 		final String os = getProperty("os.name");
+		// System.out.println(os);
 		final boolean linux = os.toLowerCase(ENGLISH).startsWith("linux");
 		final boolean osx = os.startsWith("Mac OS X");
 		final boolean windows = os.startsWith("Windows");
@@ -60,7 +66,7 @@ public class Secp256k1Context {
 			} else if (arch64 && osx) {
 				libToLoad = extract("coop/rchain/secp256k1-native-osx-x86_64.dylib");
 			} else if (archArm64 && osx) {
-				libToLoad = extract("coop/rchain/secp256k1-native-osx-arm64.dylib");
+				libToLoad = "/.libs/secp256k1.0.dylib";
 			} else if (arch64 && windows) {
 				libToLoad = extract("coop/rchain/secp256k1-native-windows-x86_64.dll");
 			} else {
@@ -69,13 +75,16 @@ public class Secp256k1Context {
 			System.load(libToLoad);
 			contextRef = secp256k1_init_context();
 		} catch (UnsatisfiedLinkError e) {
-			System.out.println("UnsatisfiedLinkError: " + e.toString());
+			// System.out.println("UnsatisfiedLinkError: " + e.toString());
+			logger.severe("UnsatisfiedLinkError: " + e.toString());
 			isEnabled = false;
 		} catch (IOException e) {
-			System.out.println("IOException: " + e.toString());
+			// System.out.println("IOException: " + e.toString());
+			logger.severe("IOException: " + e.toString());
 			isEnabled = false;
 		} catch (NullPointerException e) {
-			System.out.println("Null pointer exception: " + e.toString());
+			// System.out.println("Null pointer exception: " + e.toString());
+			logger.severe("Null pointer exception: " + e.toString());
 			isEnabled = false;
 		}
 		enabled = isEnabled;

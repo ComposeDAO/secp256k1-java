@@ -1,0 +1,7 @@
+package org.bitcoin;                                                                                                                                                                                                 
+                                                                                                                                                                                                                      
+ public class TestSecp256k1Context {                                                                                                                                                                                  
+     public static void main(String[] args) {                                                                                                                                                                         
+         System.out.println("Is secp256k1 enabled? " + Secp256k1Context.isEnabled());                                                                                                                                 
+     }                                                                                                                                                                                                                
+ }        
