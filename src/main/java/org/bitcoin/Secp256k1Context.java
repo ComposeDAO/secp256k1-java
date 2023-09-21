@@ -20,10 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static java.io.File.createTempFile;
 import static java.lang.System.getProperty;
@@ -50,12 +47,10 @@ public class Secp256k1Context {
 		final String libToLoad;
 
 		final String arch = getProperty("os.arch");
-		// System.out.println(arch);
 		final boolean arch64 = "x64".equals(arch) || "amd64".equals(arch) || "x86_64".equals(arch);
 		final boolean archArm64 = "aarch64".equals(arch);
 
 		final String os = getProperty("os.name");
-		// System.out.println(os);
 		final boolean linux = os.toLowerCase(ENGLISH).startsWith("linux");
 		final boolean osx = os.startsWith("Mac OS X");
 		final boolean windows = os.startsWith("Windows");
@@ -66,7 +61,10 @@ public class Secp256k1Context {
 			} else if (arch64 && osx) {
 				libToLoad = extract("coop/rchain/secp256k1-native-osx-x86_64.dylib");
 			} else if (archArm64 && osx) {
-				libToLoad = "/.libs/secp256k1.0.dylib";
+				// libToLoad = extract("coop/firefly/secp256k1-native-osx-arm64.dylib");
+				// libToLoad =
+				// "/Users/spreston/src/firefly/secp256k1-native/secp256k1-tmp/.libs/libsecp256k1.0.dylib";
+				libToLoad = System.getenv("HOME") + "/.firefly/libsecp256k1.0.dylib";
 			} else if (arch64 && windows) {
 				libToLoad = extract("coop/rchain/secp256k1-native-windows-x86_64.dll");
 			} else {
@@ -75,15 +73,12 @@ public class Secp256k1Context {
 			System.load(libToLoad);
 			contextRef = secp256k1_init_context();
 		} catch (UnsatisfiedLinkError e) {
-			// System.out.println("UnsatisfiedLinkError: " + e.toString());
 			logger.severe("UnsatisfiedLinkError: " + e.toString());
 			isEnabled = false;
 		} catch (IOException e) {
-			// System.out.println("IOException: " + e.toString());
 			logger.severe("IOException: " + e.toString());
 			isEnabled = false;
 		} catch (NullPointerException e) {
-			// System.out.println("Null pointer exception: " + e.toString());
 			logger.severe("Null pointer exception: " + e.toString());
 			isEnabled = false;
 		}
