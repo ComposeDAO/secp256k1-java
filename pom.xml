@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>coop.firefly</groupId>
+	<groupId>io.f1r3fly</groupId>
 	<artifactId>secp256k1-java-dylib</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -65,7 +65,7 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- <dependency>
-			<groupId>coop.firefly</groupId>
+			<groupId>io.f1r3fly</groupId>
 			<artifactId>secp256k1-native-osx-arm64</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<optional>true</optional>
@@ -99,7 +99,7 @@
 					<usedDependencies>
 						<usedDependency>coop.rchain:secp256k1-native-linux-x86_64</usedDependency>
 						<usedDependency>coop.rchain:secp256k1-native-osx-x86_64</usedDependency>
-						<!-- <usedDependency>coop.firefly:secp256k1-native-osx-arm64</usedDependency> -->
+						<!-- <usedDependency>io.f1r3fly:secp256k1-native-osx-arm64</usedDependency> -->
 					</usedDependencies>
 				</configuration>
 			</plugin>
@@ -137,7 +137,7 @@
 								<includes>
 									<include>coop.rchain:secp256k1-native-linux-x86_64</include>
 									<include>coop.rchain:secp256k1-native-osx-x86_64</include>
-									<!-- <include>coop.firefly:secp256k1-native-osx-arm64</include> -->
+									<!-- <include>io.f1r3fly:secp256k1-native-osx-arm64</include> -->
 								</includes>
 							</artifactSet>
 						</configuration>
