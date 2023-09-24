@@ -47,11 +47,14 @@ public class Secp256k1Context {
 		final String libToLoad;
 
 		final String arch = getProperty("os.arch");
+		System.out.println(arch);
 		final boolean arch64 = "x64".equals(arch) || "amd64".equals(arch) || "x86_64".equals(arch);
 		final boolean archArm64 = "aarch64".equals(arch);
 
 		final String os = getProperty("os.name");
+		System.out.println(os);
 		final boolean linux = os.toLowerCase(ENGLISH).startsWith("linux");
+		System.out.println(linux);
 		final boolean osx = os.startsWith("Mac OS X");
 		final boolean windows = os.startsWith("Windows");
 
@@ -60,10 +63,13 @@ public class Secp256k1Context {
 				libToLoad = extract("coop/rchain/secp256k1-native-linux-x86_64.so");
 			} else if (arch64 && osx) {
 				libToLoad = extract("coop/rchain/secp256k1-native-osx-x86_64.dylib");
+			} else if (archArm64 && linux) {
+				// libToLoad = extract("coop/rchain/secp256k1-native-linux-x86_64.so");
+				libToLoad = System.getenv("HOME") + "/.firefly/libsecp256k1.so";
 			} else if (archArm64 && osx) {
 				// libToLoad = extract("coop/firefly/secp256k1-native-osx-arm64.dylib");
 				// libToLoad =
-				// "/Users/spreston/src/firefly/secp256k1-native/secp256k1-tmp/.libs/libsecp256k1.0.dylib";
+				// "/Users/spreston/Downloads/linux-aarch64/libsecp256k1.so";
 				libToLoad = System.getenv("HOME") + "/.firefly/libsecp256k1.0.dylib";
 			} else if (arch64 && windows) {
 				libToLoad = extract("coop/rchain/secp256k1-native-windows-x86_64.dll");
